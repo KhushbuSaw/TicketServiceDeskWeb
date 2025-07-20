@@ -134,7 +134,9 @@ namespace TicketServiceDesk
         {
             using (SqlConnection con = new SqlConnection(connStr))
             {
-                SqlCommand cmd = new SqlCommand("SELECT UserId, UserName FROM [Users]", con);
+                string role = "user";
+                SqlCommand cmd = new SqlCommand("SELECT UserId, UserName FROM [Users] where Role=@Role", con);
+                cmd.Parameters.AddWithValue("@Role",role);
                 con.Open();
                 ddlUsers.DataSource = cmd.ExecuteReader();
                 ddlUsers.DataTextField = "UserName";

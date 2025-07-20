@@ -15,13 +15,13 @@ namespace TicketServiceDesk
     {
 
         /// <summary>
-        /// AdminForm control.
+        /// LoginForm control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm AdminForm;
+        protected global::System.Web.UI.HtmlControls.HtmlForm LoginForm;
 
         /// <summary>
         /// lblEmail control.
@@ -33,13 +33,13 @@ namespace TicketServiceDesk
         protected global::System.Web.UI.WebControls.Label lblEmail;
 
         /// <summary>
-        /// txtAdminEmail control.
+        /// txtEmail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtAdminEmail;
+        protected global::System.Web.UI.WebControls.TextBox txtEmail;
 
         /// <summary>
         /// lblPassword control.
@@ -51,13 +51,13 @@ namespace TicketServiceDesk
         protected global::System.Web.UI.WebControls.Label lblPassword;
 
         /// <summary>
-        /// txtAdminPassword control.
+        /// txtPassword control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtAdminPassword;
+        protected global::System.Web.UI.WebControls.TextBox txtPassword;
 
         /// <summary>
         /// btnLogin control.
@@ -69,12 +69,12 @@ namespace TicketServiceDesk
         protected global::System.Web.UI.WebControls.Button btnLogin;
 
         /// <summary>
-        /// lblAdminMsg control.
+        /// lblMsg control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblAdminMsg;
+        protected global::System.Web.UI.WebControls.Label lblMsg;
     }
 }
