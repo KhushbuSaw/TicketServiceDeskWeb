@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Admin.aspx.cs" Inherits="TicketServiceDesk.Admin" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="AdminLogin.aspx.cs" Inherits="TicketServiceDesk.Admin" %>
 
 <!DOCTYPE html>
 
@@ -15,10 +15,10 @@
                 <asp:TextBox ID="txtAdminEmail" runat="server"/><br /><br />
 
                  <asp:Label ID="lblPassword" runat="server" Text="Enter Password: " />
-                <asp:TextBox ID="txtAdminPassword" runat="server" /><br /><br />
+                <asp:TextBox ID="txtAdminPassword" runat="server" TextMode="Password" CssClass="form-control" /><br /><br />
 
                 <asp:Button ID="btnLogin" runat="server" Text="Login" OnClick="btnLogin_Click" /><br />
-                <asp:Label ID="lblAdminMsg" runat="server" ForeColor="Red" /><br /><br />
+                <asp:Label ID="lblAdminMsg" runat="server" ForeColor="Red" />
             </div>
         </form>
      </div>
