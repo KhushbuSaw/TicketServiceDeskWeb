@@ -21,7 +21,7 @@
                   <asp:BoundField DataField="TicketType" HeaderText="Type" />
                   <asp:BoundField DataField="Status" HeaderText="Status" />
                   <asp:BoundField DataField="CreatedDate" HeaderText="Raised on" />
-                  <asp:BoundField DataField="DeliveryDate" HeaderText="Delivery on" />
+                  <asp:BoundField DataField="DeliveryDate" HeaderText="Delivery Date" />
             </Columns>
         </asp:GridView>
         </div>

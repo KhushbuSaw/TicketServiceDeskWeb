@@ -29,9 +29,20 @@ namespace TicketServiceDesk
         {
             using (SqlConnection con = new SqlConnection(connStr))
             {
-                string query = @"SELECT TicketID,RaisedByUserName,RaisedByUserEmail,TicketType,Status,CreatedDate,Assigned
-                             FROM Tickets
-                             WHERE Status=@Status";
+                string query = @"
+                            SELECT 
+                                t.TicketID,
+                                t.RaisedByUserName,
+                                t.RaisedByUserEmail,
+                                t.TicketType,
+                                t.Status,
+                                t.CreatedDate,
+                                t.Assigned,
+                                t.AssignedToUserID,
+                                u.UserName AS AssignedUserName
+                            FROM Tickets t
+                            LEFT JOIN Users u ON t.AssignedToUserID = u.UserID
+                            WHERE t.Status=@Status";
                 SqlCommand cmd = new SqlCommand(query, con);
                 cmd.Parameters.AddWithValue("@Status", status);
                 SqlDataAdapter sda = new SqlDataAdapter(cmd);

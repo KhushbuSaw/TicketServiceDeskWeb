@@ -23,6 +23,7 @@
                         <%# Convert.ToBoolean(Eval("Assigned")) ? "Assigned" : "Not Assigned" %>
                    </ItemTemplate>
                 </asp:TemplateField>
+               <asp:BoundField DataField="AssignedUserName" HeaderText="Currently Assigned To" />
                <asp:TemplateField>
                  <ItemTemplate>
                     <asp:Button ID="btnEdit" runat="server" CommandName="EditTicket" CommandArgument='<%# Eval("TicketID") %>' Text="Edit" />
