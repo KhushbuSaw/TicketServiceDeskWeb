@@ -26,6 +26,7 @@ namespace TicketServiceDesk
                 return;
             }
             string ticketType = ddlTicketType.SelectedValue;
+            string description = txtDescription.Text.Trim();
 
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(ticketType))
             {
@@ -37,11 +38,12 @@ namespace TicketServiceDesk
 
             using (SqlConnection conn = new SqlConnection(connStr))
             {
-                string query = "INSERT INTO Tickets (RaisedByUserName, RaisedByUserEmail, TicketType) VALUES (@RaisedByUserName, @RaisedByUserEmail, @TicketType)";
+                string query = "INSERT INTO Tickets (RaisedByUserName, RaisedByUserEmail, TicketType, Description) VALUES (@RaisedByUserName, @RaisedByUserEmail, @TicketType, @Description)";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@RaisedByUserName", username);
                 cmd.Parameters.AddWithValue("@RaisedByUserEmail", email);
                 cmd.Parameters.AddWithValue("@TicketType", ticketType);
+                cmd.Parameters.AddWithValue("@Description", description);
 
                 try
                 {

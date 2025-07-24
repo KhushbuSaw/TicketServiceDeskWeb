@@ -42,7 +42,7 @@ namespace TicketServiceDesk
                 int userId = Convert.ToInt32(result);
 
                 string query = @"
-                SELECT TicketID, RaisedByUserName, RaisedByUserEmail, TicketType, Status, CreatedDate, DeliveryDate
+                SELECT TicketID, RaisedByUserName, RaisedByUserEmail, TicketType, Status, CreatedDate, DeliveryDate, Description
                 FROM Tickets
                 WHERE AssignedToUserID = @AssignedToUserID";
 

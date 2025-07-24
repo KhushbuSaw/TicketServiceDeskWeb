@@ -18,7 +18,8 @@
                   <asp:BoundField DataField="TicketID" HeaderText="Ticket Id" ReadOnly="true" />
                   <asp:BoundField DataField="RaisedByUserName" HeaderText="Raised By" />
                   <asp:BoundField DataField="RaisedByUserEmail" HeaderText="Raised By Email" />
-                  <asp:BoundField DataField="TicketType" HeaderText="Type" />
+                  <asp:BoundField DataField="TicketType" HeaderText="Ticket Type" />
+                  <asp:BoundField DataField="Description" HeaderText="Remarks" />
                   <asp:BoundField DataField="CreatedDate" HeaderText="Raised on" />
                   <asp:BoundField DataField="DeliveryDate" HeaderText="Delivery Date" />
                   <asp:TemplateField HeaderText="Days Left">

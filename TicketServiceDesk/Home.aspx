@@ -13,7 +13,7 @@
 </head>
 <body>
     <form id="TicketForm" runat="server">
-        <div style="width: 400px; margin: 0 auto; padding: 20px; border: 1px solid #ccc;background-color:#e6f2ff; height: 286px;">
+        <div style="width: 500px; margin: 0 auto; padding: 20px; border: 1px solid #ccc;background-color:#e6f2ff; height: 400px;">
             <h2>Raise a Ticket</h2>
 
             <asp:Label ID="lblUsername" runat="server" Text="Username: " />
@@ -28,9 +28,11 @@
                 <asp:ListItem Text="Admin Issue" Value="Admin Issue" />
                 <asp:ListItem Text="Billing Issue" Value="Billing Issue" />
                 <asp:ListItem Text="Technical Issue" Value="Technical Issue" />
-            </asp:DropDownList><br />
+            </asp:DropDownList><br /><br />
 
-            <br />
+            <asp:Label ID="lblDescription" runat="server" Text="Issue Description:"></asp:Label><br />
+            <asp:TextBox ID="txtDescription" runat="server" TextMode="MultiLine" Rows="5" Columns="50" Height="78px" Width="323px"></asp:TextBox><br /><br />
+
 
             <asp:Button ID="btnSubmit" runat="server" Text="Submit Ticket" OnClick="btnSubmit_Click" />
             <br /><br />
