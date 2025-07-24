@@ -57,6 +57,27 @@ namespace TicketServiceDesk
                 gvTickets.DataBind();
             }
         }
+        protected void gvUserTickets_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                DateTime deliveryDate = Convert.ToDateTime(DataBinder.Eval(e.Row.DataItem, "DeliveryDate"));
+                Label lblDaysLeft = (Label)e.Row.FindControl("lblDaysLeft");
+
+                int daysLeft = (deliveryDate - DateTime.Now.Date).Days;
+
+                if (daysLeft < 0)
+                {
+                    lblDaysLeft.Text = "Overshoot by " + Math.Abs(daysLeft) + " day";
+                    lblDaysLeft.ForeColor = System.Drawing.Color.Red;
+                }
+                else
+                {
+                    lblDaysLeft.Text = daysLeft + " days left";
+                    lblDaysLeft.ForeColor = System.Drawing.Color.Green;
+                }
+            }
+        }
         protected void gvUserTickets_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             if (e.CommandName == "EditTicket")
