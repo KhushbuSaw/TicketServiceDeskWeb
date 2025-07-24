@@ -13,6 +13,9 @@
 </head>
 <body>
     <form id="TicketForm" runat="server">
+         <div style="text-align: right;">
+             <asp:Button ID="btnLogin" runat="server" Text="Login" OnClick="btnLogin_Click" />
+        </div>
         <div style="width: 500px; margin: 0 auto; padding: 20px; border: 1px solid #ccc;background-color:#e6f2ff; height: 400px;">
             <h2>Raise a Ticket</h2>
 

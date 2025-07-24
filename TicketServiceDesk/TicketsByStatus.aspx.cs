@@ -178,6 +178,12 @@ namespace TicketServiceDesk
                 }
             }
         }
+        protected void btnLogout_Click(object sender, EventArgs e)
+        {
+            Session.Clear();
+            Session.Abandon();
+            Response.Redirect("Login.aspx");
+        }
         protected void gvTickets_SelectedIndexChanged(object sender, EventArgs e)
         {
            

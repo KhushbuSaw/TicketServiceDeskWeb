@@ -8,6 +8,9 @@
 
 <body>
     <form id="form1" runat="server" style="background-color:#e6f2ff">
+         <div style="text-align: right;">
+              <asp:Button ID="btnLogout" runat="server" Text="Logout" OnClick="btnLogout_Click" />
+         </div>
         <h2 style="text-align: center;"> <asp:Label ID="lblStatus" runat="server" /> Ticket Details</h2>
 
         <asp:GridView ID="gvTickets" runat="server" AutoGenerateColumns="False" OnRowCommand="gvTickets_RowCommand" OnRowDataBound="GridView1_RowDataBound" Height="264px" Width="1205px" HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center" RowStyle-HorizontalAlign="Center" OnSelectedIndexChanged="gvTickets_SelectedIndexChanged">

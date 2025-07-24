@@ -55,6 +55,7 @@ namespace TicketServiceDesk
                     txtUsername.Text = "";
                     txtEmail.Text = "";
                     ddlTicketType.SelectedIndex = 0;
+                    txtDescription.Text = "";
                 }
                 catch (Exception ex)
                 {
@@ -62,6 +63,11 @@ namespace TicketServiceDesk
                     lblMessage.ForeColor = System.Drawing.Color.Red;
                 }
             }
+        }
+
+        protected void btnLogin_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Login.aspx");
         }
     }
 }

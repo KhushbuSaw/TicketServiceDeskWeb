@@ -14,6 +14,10 @@ namespace TicketServiceDesk
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["Email"] == null)
+            {
+                Response.Redirect("Login.aspx");
+            }
             if (!IsPostBack)
             {
                 string email = Request.QueryString["email"];
@@ -125,7 +129,12 @@ namespace TicketServiceDesk
                 BindUserTicketsDetails(email);
             }
         }
-
+        protected void btnLogout_Click(object sender, EventArgs e)
+        {
+            Session.Clear();
+            Session.Abandon();
+            Response.Redirect("Login.aspx");
+        }
 
         protected void gvTickets_SelectedIndexChanged(object sender, EventArgs e)
         {

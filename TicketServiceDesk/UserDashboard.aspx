@@ -10,9 +10,13 @@
     </style>
 </head>
 <body>
+   
     <form id="UserDashboardForm" runat="server">
           <div style="width: 100%; margin: 0 auto; padding: 20px; border: 1px solid #ccc;background-color:#e6f2ff; height: 300px;">
-             <h2>My Assigned Tickets</h2>
+              <div style="text-align: right;">
+                 <asp:Button ID="btnLogout" runat="server" Text="Logout" OnClick="btnLogout_Click" />
+             </div>
+              <h2>My Assigned Tickets</h2>
         <asp:GridView ID="gvTickets" runat="server" AutoGenerateColumns="False" CssClass="grid" OnRowCommand="gvUserTickets_RowCommand" OnRowDataBound="gvUserTickets_RowDataBound" Height="161px" Width="1114px">
             <Columns>
                   <asp:BoundField DataField="TicketID" HeaderText="Ticket Id" ReadOnly="true" />

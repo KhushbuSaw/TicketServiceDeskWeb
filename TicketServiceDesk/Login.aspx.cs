@@ -43,6 +43,8 @@ namespace TicketServiceDesk
                 {
                     // Login successful
                     reader.Read();
+                    Session["Email"] = email;
+
                     string role = reader["Role"].ToString().ToLower();
 
                     // Redirect based on role
