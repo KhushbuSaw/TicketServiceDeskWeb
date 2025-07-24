@@ -32,7 +32,7 @@ namespace TicketServiceDesk
             string connStr = ConfigurationManager.ConnectionStrings["ServiceDeskConnectionString"].ConnectionString;
             using (SqlConnection conn = new SqlConnection(connStr))
             {
-                string query = "SELECT UserName, Role FROM [Users] WHERE Email = @Email AND PasswordHash = @PasswordHash";
+                string query = "SELECT UserID,UserName, Role FROM [Users] WHERE Email = @Email AND PasswordHash = @PasswordHash";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@Email", email);
                 cmd.Parameters.AddWithValue("@PasswordHash", password);
@@ -44,6 +44,7 @@ namespace TicketServiceDesk
                     // Login successful
                     reader.Read();
                     Session["Email"] = email;
+                    Session["UserID"] = reader["UserID"].ToString().ToLower();
 
                     string role = reader["Role"].ToString().ToLower();
 

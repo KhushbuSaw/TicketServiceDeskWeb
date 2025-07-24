@@ -7,11 +7,13 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.IO;
 
 namespace TicketServiceDesk
 {
     public partial class UserDashboard : System.Web.UI.Page
     {
+        string connStr = ConfigurationManager.ConnectionStrings["ServiceDeskConnectionString"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["Email"] == null)
@@ -26,8 +28,6 @@ namespace TicketServiceDesk
         }
         protected void BindUserTicketsDetails(string email)
         {
-            string connStr = ConfigurationManager.ConnectionStrings["ServiceDeskConnectionString"].ConnectionString;
-
             using (SqlConnection con = new SqlConnection(connStr))
             {
                 con.Open();
@@ -115,7 +115,6 @@ namespace TicketServiceDesk
 
                 string newStatus = ddlStatus.SelectedValue;
 
-                string connStr = ConfigurationManager.ConnectionStrings["ServiceDeskConnectionString"].ConnectionString;
                 using (SqlConnection con = new SqlConnection(connStr))
                 {
                     string updateQuery = "UPDATE Tickets SET Status = @Status WHERE TicketID = @TicketID";
@@ -135,7 +134,81 @@ namespace TicketServiceDesk
             Session.Abandon();
             Response.Redirect("Login.aspx");
         }
+        protected void btnStartConversation_Click(object sender, EventArgs e)
+        {
+            pnlConversation.Visible = true;
+            int ticketId = Convert.ToInt32(((Button)sender).CommandArgument);
+            ViewState["CurrentTicketID"] = ticketId;
+            LoadConversation(ticketId);
+        }
+        private void LoadConversation(int ticketId)
+        {
+         
+            using (SqlConnection con = new SqlConnection(connStr))
+            {
+                string query = "SELECT * FROM TicketConversations WHERE TicketID = @TicketID ORDER BY CreatedAt ASC";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@TicketID", ticketId);
+                con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                rptConversation.DataSource = reader;
+                rptConversation.DataBind();
+            }
+        }
+        protected void btnSendMessage_Click(object sender, EventArgs e)
+        {
+            string message = txtMessage.Text.Trim();
+            string filePath = null;
 
+            if (fileUpload.HasFile)
+            {
+                string folderPath = Server.MapPath("~/Uploads/");
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+                string fileName = Path.GetFileName(fileUpload.FileName);
+                filePath = "~/Uploads/" + fileName;
+                fileUpload.SaveAs(folderPath + fileName);
+            }
+
+            int userId = Convert.ToInt32(Session["UserID"]);
+            int ticketId = Convert.ToInt32(ViewState["CurrentTicketID"]);
+
+            using (SqlConnection con = new SqlConnection(connStr))
+            {
+                string insert = "INSERT INTO TicketConversations (TicketID, UserID, MessageText, FilePath) VALUES (@TicketID, @UserID, @MessageText, @FilePath)";
+                SqlCommand cmd = new SqlCommand(insert, con);
+                cmd.Parameters.AddWithValue("@TicketID", ticketId);
+                cmd.Parameters.AddWithValue("@UserID", userId);
+                cmd.Parameters.AddWithValue("@MessageText", message);
+                cmd.Parameters.AddWithValue("@FilePath", (object)filePath ?? DBNull.Value);
+                con.Open();
+                cmd.ExecuteNonQuery();
+            }
+
+            txtMessage.Text = "";
+            LoadConversation(ticketId);
+        }
+        protected void btnDownload_Command(object sender, CommandEventArgs e)
+        {
+            string relativePath = e.CommandArgument.ToString();
+            string filePath = Server.MapPath(relativePath);
+
+            if (File.Exists(filePath))
+            {
+                string fileName = Path.GetFileName(filePath);
+                Response.Clear();
+                Response.ContentType = "application/octet-stream";
+                Response.AppendHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+                Response.TransmitFile(filePath);
+                Response.End();
+            }
+            else
+            {
+                Response.Write("<script>alert('File not found.');</script>");
+            }
+        }
         protected void gvTickets_SelectedIndexChanged(object sender, EventArgs e)
         {
 

@@ -12,7 +12,7 @@
 <body>
    
     <form id="UserDashboardForm" runat="server">
-          <div style="width: 100%; margin: 0 auto; padding: 20px; border: 1px solid #ccc;background-color:#e6f2ff; height: 300px;">
+          <div style="width: 100%; margin: 0 auto; padding: 20px; border: 1px solid #ccc;background-color:#e6f2ff; height: 450px;">
               <div style="text-align: right;">
                  <asp:Button ID="btnLogout" runat="server" Text="Logout" OnClick="btnLogout_Click" />
              </div>
@@ -50,9 +50,41 @@
                         CommandArgument='<%# Eval("TicketID") + "|" + Request.QueryString["email"] %>' Visible="false" />
                    </ItemTemplate>
                 </asp:TemplateField>
+                 <asp:TemplateField>
+            <ItemTemplate>
+                <asp:Button ID="btnStartConversation" runat="server" Text="Chat About Ticket"
+                    OnClick="btnStartConversation_Click" CommandArgument='<%# Eval("TicketID") %>' />
+            </ItemTemplate>
+        </asp:TemplateField>
             </Columns>
         </asp:GridView>
         </div>
-    </form>
+        <br />
+        <div style="background-color:steelblue; width:500px;">
+        <asp:Panel ID="pnlConversation" runat="server" Visible="false">
+            <asp:TextBox ID="txtMessage" runat="server" TextMode="MultiLine" Rows="4" Columns="50" placeholder="Enter your message here"></asp:TextBox>
+            <br /><br />
+            <asp:FileUpload ID="fileUpload" runat="server" />
+            <br /><br />
+            <asp:Button ID="btnSendMessage" runat="server" Text="Send Message" OnClick="btnSendMessage_Click" />
+        </asp:Panel>
+        </div><br />
+        <div style="background-color:cornflowerblue; width:500px;">
+        <asp:Repeater ID="rptConversation" runat="server">
+           <ItemTemplate>
+            <div style="margin-bottom: 10px; border-bottom: 1px solid #ccc;">
+                <%# Eval("MessageText") %><br />
+
+                <asp:Button ID="btnDownload" runat="server"
+                    Text="📎 Download Attachment"
+                    CommandName="Download"
+                    CommandArgument='<%# Eval("FilePath") %>'
+                    Visible='<%# !string.IsNullOrEmpty(Eval("FilePath").ToString()) %>' 
+                    OnCommand="btnDownload_Command" />
+            </div>
+        </ItemTemplate>
+        </asp:Repeater>
+        </div>
+        </form>
 </body>
 </html>
