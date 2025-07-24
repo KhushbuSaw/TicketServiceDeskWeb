@@ -137,6 +137,7 @@ namespace TicketServiceDesk
         protected void btnStartConversation_Click(object sender, EventArgs e)
         {
             pnlConversation.Visible = true;
+            pnlHeader.Visible = false;
             int ticketId = Convert.ToInt32(((Button)sender).CommandArgument);
             ViewState["CurrentTicketID"] = ticketId;
             LoadConversation(ticketId);
@@ -153,6 +154,8 @@ namespace TicketServiceDesk
                 SqlDataReader reader = cmd.ExecuteReader();
                 rptConversation.DataSource = reader;
                 rptConversation.DataBind();
+                bool hasRow = reader.HasRows;
+                pnlHeader.Visible = hasRow;
             }
         }
         protected void btnSendMessage_Click(object sender, EventArgs e)
