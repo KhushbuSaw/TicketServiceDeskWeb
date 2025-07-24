@@ -59,8 +59,12 @@ namespace TicketServiceDesk
                 int rowIndex = Convert.ToInt32(((GridViewRow)((Control)e.CommandSource).NamingContainer).RowIndex);
                 GridViewRow row = gvTickets.Rows[rowIndex];
 
-                int ticketId = Convert.ToInt32(e.CommandArgument);
+                string[] args = e.CommandArgument.ToString().Split('|');
+                int ticketId = Convert.ToInt32(args[0]);
                 lblTicketId.Text = ticketId.ToString();
+
+                string status = args[1];
+                tblTicketStatus.Text = status;
                 BindUserDropdown();
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "Popup", "showPopup();", true);
             }
@@ -70,6 +74,7 @@ namespace TicketServiceDesk
             string ticketId = lblTicketId.Text;
             string assignedUserId = ddlUsers.SelectedValue;
             string selectedDeliveryDate = txtDate.Value;
+            string status = tblTicketStatus.Text;
             DateTime? deliveryDate =null ;
             if (DateTime.TryParse(selectedDeliveryDate, out DateTime date))
             {
@@ -79,8 +84,11 @@ namespace TicketServiceDesk
             using (SqlConnection con = new SqlConnection(connStr))
             {
                 int assigned = 1;
-                SqlCommand cmd = new SqlCommand("UPDATE Tickets SET AssignedToUserID = @AssignedToUserID,DeliveryDate=@DeliveryDate,Assigned=@Assigned WHERE TicketId = @TicketId", con);
+                if (status.Equals("Open"))
+                    status = "Work-in-progress";
+                SqlCommand cmd = new SqlCommand("UPDATE Tickets SET AssignedToUserID = @AssignedToUserID,Status = @Status,DeliveryDate=@DeliveryDate,Assigned=@Assigned WHERE TicketId = @TicketId", con);
                 cmd.Parameters.AddWithValue("@AssignedToUserID", assignedUserId);
+                cmd.Parameters.AddWithValue("@Status", status);
                 cmd.Parameters.AddWithValue("@DeliveryDate", deliveryDate);
                 cmd.Parameters.AddWithValue("@Assigned", assigned);
                 cmd.Parameters.AddWithValue("@TicketId", ticketId);
@@ -154,6 +162,20 @@ namespace TicketServiceDesk
                 ddlUsers.DataValueField = "UserId";
                 ddlUsers.DataBind();
                 ddlUsers.Items.Insert(0, new ListItem("--Select User--", ""));
+            }
+        }
+        protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                string status = DataBinder.Eval(e.Row.DataItem, "Status").ToString();
+                Button btnEdit = (Button)e.Row.FindControl("btnEdit");
+
+                if (status.Equals("Closed", StringComparison.OrdinalIgnoreCase))
+                {
+                    btnEdit.Enabled = false;
+                    btnEdit.CssClass = "disabled-button"; 
+                }
             }
         }
         protected void gvTickets_SelectedIndexChanged(object sender, EventArgs e)

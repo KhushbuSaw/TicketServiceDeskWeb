@@ -10,7 +10,7 @@
     <form id="form1" runat="server" style="background-color:#e6f2ff">
         <h2 style="text-align: center;"> <asp:Label ID="lblStatus" runat="server" /> Ticket Details</h2>
 
-        <asp:GridView ID="gvTickets" runat="server" AutoGenerateColumns="False" OnRowCommand="gvTickets_RowCommand" Height="264px" Width="1205px" HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center" RowStyle-HorizontalAlign="Center" OnSelectedIndexChanged="gvTickets_SelectedIndexChanged">
+        <asp:GridView ID="gvTickets" runat="server" AutoGenerateColumns="False" OnRowCommand="gvTickets_RowCommand" OnRowDataBound="GridView1_RowDataBound" Height="264px" Width="1205px" HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center" RowStyle-HorizontalAlign="Center" OnSelectedIndexChanged="gvTickets_SelectedIndexChanged">
             <Columns>
                 <asp:BoundField DataField="TicketID" HeaderText="Ticket Id" ReadOnly="true" />
                 <asp:BoundField DataField="RaisedByUserName" HeaderText="Raised By" />
@@ -26,7 +26,7 @@
                <asp:BoundField DataField="AssignedUserName" HeaderText="Currently Assigned To" />
                <asp:TemplateField>
                  <ItemTemplate>
-                    <asp:Button ID="btnEdit" runat="server" CommandName="EditTicket" CommandArgument='<%# Eval("TicketID") %>' Text="Edit" />
+                    <asp:Button ID="btnEdit" runat="server" CommandName="EditTicket"   CommandArgument='<%# Eval("TicketID") + "|" + Eval("Status") %>'  Text="Edit" />
                  </ItemTemplate>
              </asp:TemplateField>
 
@@ -39,6 +39,7 @@
              <div style="width: 400px; margin: 0 auto; padding: 20px; border: 1px solid #ccc;background-color:steelblue; height: 222px;">
             <h3>Edit Ticket</h3>
             <asp:Label ID="lblTicketId" runat="server" Text="" Visible="false"></asp:Label>
+            <asp:Label ID="tblTicketStatus" runat="server" Text="" Visible="false"></asp:Label>
 
             <label for="ddlUsers">Assign To:</label>
             <asp:DropDownList ID="ddlUsers" runat="server"></asp:DropDownList><br /><br />
