@@ -7,13 +7,15 @@
 </head>
 
 <body>
-    <form id="form1" runat="server" style="background-color:#e6f2ff">
+    <form id="form1" runat="server">
          <div style="text-align: right;">
               <asp:Button ID="btnLogout" runat="server" Text="Logout" OnClick="btnLogout_Click" />
          </div>
+        <div style="display: flex; float:left;">
+        <div style="width: 65%; margin: 0 auto; padding: 20px; border: 1px solid #ccc;background-color:#e6f2ff; height: 388px;">
         <h2 style="text-align: center;"> <asp:Label ID="lblStatus" runat="server" /> Ticket Details</h2>
 
-        <asp:GridView ID="gvTickets" runat="server" AutoGenerateColumns="False" OnRowCommand="gvTickets_RowCommand" OnRowDataBound="GridView1_RowDataBound" Height="264px" Width="1205px" HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center" RowStyle-HorizontalAlign="Center" OnSelectedIndexChanged="gvTickets_SelectedIndexChanged">
+        <asp:GridView ID="gvTickets" runat="server" AutoGenerateColumns="False" OnRowCommand="gvTickets_RowCommand" OnRowDataBound="GridView1_RowDataBound" HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center" RowStyle-HorizontalAlign="Center" OnSelectedIndexChanged="gvTickets_SelectedIndexChanged">
             <Columns>
                 <asp:BoundField DataField="TicketID" HeaderText="Ticket Id" ReadOnly="true" />
                 <asp:BoundField DataField="RaisedByUserName" HeaderText="Raised By" />
@@ -32,13 +34,44 @@
                     <asp:Button ID="btnEdit" runat="server" CommandName="EditTicket"   CommandArgument='<%# Eval("TicketID") + "|" + Eval("Status") %>'  Text="Edit" />
                  </ItemTemplate>
              </asp:TemplateField>
+              <asp:TemplateField>
+                 <ItemTemplate>
+                     <asp:Button ID="btnTicketConversation" runat="server" Text="Ticket's Conversation"
+                         OnClick="btnTicketConversation_Click" CommandArgument='<%# Eval("TicketID") %>' />
+                 </ItemTemplate>
+             </asp:TemplateField>
 
             </Columns>
         </asp:GridView><br />
+        </div>
 
-         <!-- Popup Panel -->
+        <div style="width:30%;padding-top:100px;padding-left:20px;">
+               <div style="width:400px;height: 200px; overflow-y: auto;">
+                <asp:Panel ID="pnlHeader" runat="server" Visible="false">
+                    <h3>Past Conversation</h3>
+                </asp:Panel>
+                <asp:Panel ID="noConverartion" runat="server" Visible="false">
+                    <h3>No Past Conversation</h3>
+                </asp:Panel>
+                <asp:Repeater ID="rptConversation" runat="server">
+                   <ItemTemplate>
+                    <div style="margin-bottom: 10px; border-bottom: 1px solid #ccc;">
+                        <%# Eval("MessageText") %>
+
+                        <asp:Button ID="btnDownload" runat="server"
+                            Text="📎 Download Attachment"
+                            CommandName="Download"
+                            CommandArgument='<%# Eval("FilePath") %>'
+                            Visible='<%# !string.IsNullOrEmpty(Eval("FilePath").ToString()) %>' 
+                            OnCommand="btnDownload_Command" />
+                    </div>
+                  </ItemTemplate>
+               </asp:Repeater>
+              </div>
+         </div>
+        </div>
          
-        <asp:Panel ID="pnlEditPopup" runat="server" CssClass="popup" Style="display: none;">
+        <asp:Panel ID="pnlEditPopup" runat="server" CssClass="popup" Style="display:none;">
              <div style="width: 400px; margin: 0 auto; padding: 20px; border: 1px solid #ccc;background-color:steelblue; height: 222px;">
             <h3>Edit Ticket</h3>
             <asp:Label ID="lblTicketId" runat="server" Text="" Visible="false"></asp:Label>

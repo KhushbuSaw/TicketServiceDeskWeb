@@ -13,7 +13,7 @@
    
     <form id="UserDashboardForm" runat="server">
         <div style="display: flex; float:left;">
-         <div style="width: 70%; margin: 0 auto; padding: 20px; border: 1px solid #ccc;background-color:#e6f2ff; height: 450px;">
+         <div style="width: 70%; margin: 0 auto; padding: 20px; border: 1px solid #ccc;background-color:#e6f2ff; height: 550px;">
                   <div style="text-align: right;">
                      <asp:Button ID="btnLogout" runat="server" Text="Logout" OnClick="btnLogout_Click" />
                  </div>
@@ -45,18 +45,18 @@
                     </asp:TemplateField>
                     <asp:TemplateField>
                        <ItemTemplate>
-                        <asp:Button ID="btnEdit" runat="server" CommandName="EditTicket" Text="Edit"
+                        <asp:Button ID="btnEdit" runat="server" CommandName="EditTicket" Text="Change Status"
                             CommandArgument='<%# Eval("TicketID") + "|" + Eval("Status") + "|" + Request.QueryString["email"] %>' />
                         <asp:Button ID="btnSave" runat="server" CommandName="SaveTicket" Text="Save"
                             CommandArgument='<%# Eval("TicketID") + "|" + Request.QueryString["email"] %>' Visible="false" />
                        </ItemTemplate>
                     </asp:TemplateField>
                      <asp:TemplateField>
-                <ItemTemplate>
-                    <asp:Button ID="btnStartConversation" runat="server" Text="Chat About Ticket"
-                        OnClick="btnStartConversation_Click" CommandArgument='<%# Eval("TicketID") %>' />
-                </ItemTemplate>
-            </asp:TemplateField>
+                        <ItemTemplate>
+                            <asp:Button ID="btnStartConversation" runat="server" Text="Chat About Ticket"
+                                OnClick="btnStartConversation_Click" CommandArgument='<%# Eval("TicketID") %>' />
+                        </ItemTemplate>
+                    </asp:TemplateField>
                 </Columns>
             </asp:GridView>
         </div>

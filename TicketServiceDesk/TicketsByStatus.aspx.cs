@@ -9,6 +9,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Net.Mail;
 using System.Net;
+using System.IO;
 
 namespace TicketServiceDesk
 {
@@ -56,6 +57,10 @@ namespace TicketServiceDesk
         {
             if (e.CommandName == "EditTicket")
             {
+                pnlEditPopup.Visible = true;
+                rptConversation.Visible = false;
+                pnlHeader.Visible = false;
+                noConverartion.Visible = false;
                 int rowIndex = Convert.ToInt32(((GridViewRow)((Control)e.CommandSource).NamingContainer).RowIndex);
                 GridViewRow row = gvTickets.Rows[rowIndex];
 
@@ -183,6 +188,51 @@ namespace TicketServiceDesk
             Session.Clear();
             Session.Abandon();
             Response.Redirect("Login.aspx");
+        }
+        protected void btnTicketConversation_Click(object sender, EventArgs e)
+        {
+            rptConversation.Visible = true;
+            pnlHeader.Visible = true;
+            pnlEditPopup.Visible = false;
+            int ticketId = Convert.ToInt32(((Button)sender).CommandArgument);
+            ViewState["CurrentTicketID"] = ticketId;
+            LoadConversation(ticketId);
+        }
+        private void LoadConversation(int ticketId)
+        {
+
+            using (SqlConnection con = new SqlConnection(connStr))
+            {
+                string query = "SELECT * FROM TicketConversations WHERE TicketID = @TicketID ORDER BY CreatedAt ASC";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@TicketID", ticketId);
+                con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                rptConversation.DataSource = reader;
+                rptConversation.DataBind();
+                bool hasRow = reader.HasRows;
+                pnlHeader.Visible = hasRow;
+                noConverartion.Visible = !hasRow;
+            }
+        }
+        protected void btnDownload_Command(object sender, CommandEventArgs e)
+        {
+            string relativePath = e.CommandArgument.ToString();
+            string filePath = Server.MapPath(relativePath);
+
+            if (File.Exists(filePath))
+            {
+                string fileName = Path.GetFileName(filePath);
+                Response.Clear();
+                Response.ContentType = "application/octet-stream";
+                Response.AppendHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+                Response.TransmitFile(filePath);
+                Response.End();
+            }
+            else
+            {
+                Response.Write("<script>alert('File not found.');</script>");
+            }
         }
         protected void gvTickets_SelectedIndexChanged(object sender, EventArgs e)
         {
